@@ -1,6 +1,7 @@
 const CONFIG = {
   csvPath: "canciones.csv",
-  gridSize: 5,
+  columns: 3,
+  rows: 5,
   freeCenter: true,
 };
 
@@ -42,7 +43,7 @@ async function generateCard() {
   try {
     const songs = await loadSongs(CONFIG.csvPath);
 
-    const totalCells = CONFIG.gridSize * CONFIG.gridSize;
+    const totalCells = CONFIG.columns * CONFIG.rows;
     const neededSongs = totalCells - (CONFIG.freeCenter ? 1 : 0);
 
     if (songs.length < neededSongs) {
@@ -52,8 +53,12 @@ async function generateCard() {
     }
 
     const selected = shuffle([...songs]).slice(0, neededSongs);
-    cardCells = buildCard(selected, CONFIG.gridSize, CONFIG.freeCenter);
-
+    cardCells = buildCard(
+      selected,
+      CONFIG.rows,
+      CONFIG.columns,
+      CONFIG.freeCenter,
+    );
     renderCard(cardCells);
 
     homeScreen.classList.add("hidden");
@@ -134,16 +139,16 @@ function findHeaderIndex(headers, candidates) {
   return headers.findIndex((header) => normalizedCandidates.includes(header));
 }
 
-function buildCard(selectedSongs, size, freeCenter) {
+function buildCard(selectedSongs, rows, columns, freeCenter) {
   const cells = [];
   let songIndex = 0;
 
-  for (let row = 0; row < size; row += 1) {
-    for (let col = 0; col < size; col += 1) {
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < columns; col += 1) {
       const isCenter =
         freeCenter &&
-        row === Math.floor(size / 2) &&
-        col === Math.floor(size / 2);
+        row === Math.floor(rows / 2) &&
+        col === Math.floor(columns / 2);
 
       if (isCenter) {
         cells.push({
@@ -166,8 +171,7 @@ function buildCard(selectedSongs, size, freeCenter) {
 
 function renderCard(cells) {
   bingoGrid.innerHTML = "";
-  bingoGrid.style.gridTemplateColumns = `repeat(${CONFIG.gridSize}, minmax(0, 1fr))`;
-
+  bingoGrid.style.gridTemplateColumns = `repeat(${CONFIG.columns}, minmax(0, 1fr))`;
   const playableCount = cells.filter((cell) => cell.type === "song").length;
   totalCount.textContent = String(playableCount);
 
