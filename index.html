@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111111" />
+  <title>Bingo Musical</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <section id="home" class="screen home-screen">
+      <div class="home-card">
+        <div class="music-icon" aria-hidden="true">🎵</div>
+        <h1>Bingo Musical</h1>
+        <p>Generá tu cartón y marcá las canciones cuando suenen.</p>
+
+        <button id="generateButton" class="primary-button" type="button">
+          Generar mi cartón
+        </button>
+
+        <p id="homeStatus" class="status-text" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="game" class="screen game-screen hidden">
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">Bingo Musical</p>
+          <h1>Tu cartón</h1>
+        </div>
+
+        <div class="counter" aria-live="polite">
+          <strong id="markedCount">0</strong>
+          <span>/ <span id="totalCount">24</span></span>
+        </div>
+      </header>
+
+      <p class="instructions">
+        Tocá una canción para marcarla. Tocala otra vez para desmarcarla.
+      </p>
+
+      <div id="bingoGrid" class="bingo-grid" aria-label="Cartón de bingo musical"></div>
+
+      <p class="refresh-warning">
+        No actualices esta página mientras estés jugando o perderás tu cartón.
+      </p>
+    </section>
+
+    <div id="bingoOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="bingoTitle">
+      <div class="overlay-card">
+        <div class="celebration" aria-hidden="true">🎉</div>
+        <h2 id="bingoTitle">¡Bingo!</h2>
+        <p>Completaste todo el cartón.</p>
+        <button id="closeOverlayButton" class="secondary-button" type="button">
+          Seguir viendo el cartón
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="bingo.js"></script>
+</body>
+</html>
