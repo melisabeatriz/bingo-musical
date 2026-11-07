@@ -103,13 +103,8 @@ async function loadSongs(csvPath) {
   const songs = [];
 
   for (const row of rows.slice(1)) {
-    const title = (row[titleIndex] || "").trim();
-    const artist =
-      artistIndex === -1
-        ? ""
-        : (row[artistIndex] || "")
-            .split(/,|;|&|\/|\bfeat\.?\b|\bft\.?\b/i)[0]
-            .trim();
+    const title = (row[titleIndex] || "").split(" - ")[0].trim();
+    const artist = artistIndex === -1 ? "" : (row[artistIndex] || "").trim();
     if (!title) {
       continue;
     }
